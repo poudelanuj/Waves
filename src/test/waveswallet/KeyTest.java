@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.wavesplatform.wavesj.Base58;
+import com.wavesplatform.wavesj.PrivateKeyAccount;
+import com.wavesplatform.wavesj.PublicKeyAccount;
 import com.waveswallet.Waves;
 
 public class KeyTest {
@@ -11,13 +14,11 @@ public class KeyTest {
 	@Test
 	public void test() {
 		Waves w=new Waves();
-		String seed="";
-		byte[] privateKey =w.newPrivateKey();
-		byte[] publicKey=w.publicKey(privateKey);
-		byte[] address=w.generateWalletAddress(publicKey, 'W');
-		System.out.println("Private key :"+Waves.getString(privateKey).toString());
-		System.out.println("Public key:"+Waves.getString(publicKey).toString());
-		System.out.println("Address Generated:"+Waves.getString(address));
+		String seed="sketch evolve promote crush trip panel exhaust isolate fault label spike dance avoid invest pulse";
+		String privateKey="4pbYuwqYPad51SRF5RP9dGif8PCCkoXtW62Ex8kMWyak";
+		byte[] seedByte=w.newSeed(seed);
+		assertArrayEquals(Base58.decode(privateKey),w.newPrivateKey(seedByte,4));
 	}
 
 }
+//5sAsGDZ777CKcFuyWbPCKVrUADTJCp7m4EjAY7n3DPmt

@@ -1,7 +1,7 @@
 package com.waveswallet;
 
 public interface CryptoCurrency {
-	byte[] newSeed(String mnemonic, String passphrase);
+	byte[] newSeed(String mnemonic);
 
     /**
      * Creates a new private key

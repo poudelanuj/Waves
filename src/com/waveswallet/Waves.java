@@ -38,17 +38,16 @@ public class Waves implements CryptoCurrency{
 
 	
 	@Override
-	public byte[] newSeed(String mnemonic, String passphrase) { //BIP-39 algorithm for random seed
+	public byte[] newSeed(String mnemonic) { //BIP-39 algorithm for random seed
 		
 		mnemonic=Normalizer.normalize(mnemonic	,Normalizer.Form.NFKD);
-		passphrase=Normalizer.normalize(passphrase,Normalizer.Form.NFKD);
 		final char[] chars = mnemonic.toCharArray();
 		byte[] salt = null;
 		SecretKeyFactory secretKeyFactory = null;
 		PBEKeySpec spec=null;
 		
 		try {
-			salt = ("mnemonic" + passphrase).getBytes("UTF-8");
+			salt = ("mnemonic" ).getBytes("UTF-8");
 			spec= new PBEKeySpec(chars, salt, 2048, 512);
 			secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
 			return secretKeyFactory.generateSecret(spec).getEncoded();
@@ -87,11 +86,12 @@ public class Waves implements CryptoCurrency{
 
 	@Override
 	public byte[] newPrivateKey(byte[] seed) {
-		
+		int nonce=0;
 		// account seed from seed & nonce
         ByteBuffer buf = ByteBuffer.allocate(seed.length + 4);
+        buf.putInt(nonce).put(seed);
         byte[] accountSeed = secureHash(buf.array(), 0, buf.array().length);
-
+        
         // private key from account seed & scheme
         byte[] hashedSeed = hash(accountSeed, 0, accountSeed.length, SHA256);
         byte[] privateKey = Arrays.copyOf(hashedSeed, 32);
