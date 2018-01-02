@@ -1,12 +1,21 @@
 package com.waveswallet;
 
 import java.io.UnsupportedEncodingException;
+
 import java.nio.ByteBuffer;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+
+
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -17,6 +26,8 @@ import org.bouncycastle.crypto.digests.KeccakDigest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 
 import org.whispersystems.curve25519.java.curve_sigs;
+
+import com.wavesplatform.wavesj.Base58;
 
 
 public class Waves implements CryptoCurrency{
@@ -122,6 +133,22 @@ public class Waves implements CryptoCurrency{
 	}
 	
 	
+	
+	
+	
+	//static char MAINNET = 'W';
+	//static char TESTNET = 'T';
+	// scheme can be 'W' or 'T' ,W is for mainnet and T is for testnet during address generation
+	public byte[] generateWalletAddress(byte[] publicKey,char scheme) { 
+		ByteBuffer buf = ByteBuffer.allocate(26);
+        byte[] hash = secureHash(publicKey, 0, publicKey.length);
+        buf.put((byte) 1).put((byte) scheme).put(hash, 0, 20);
+        byte[] checksum = secureHash(buf.array(), 0, 22);
+        buf.put(checksum, 0, 4);
+        return buf.array();
+		
+	}
+	
 	static byte[] secureHash(byte[] message, int ofs, int len) {
 		
         byte[] blake2b = hash(message, ofs, len, BLAKE2B256);
@@ -136,6 +163,10 @@ public class Waves implements CryptoCurrency{
         alg.doFinal(res, 0);
         return res;
         
+	}
+	
+	public static String getString(byte[] bytes) {
+		return Base58.encode(bytes);
 	}
 	
 	

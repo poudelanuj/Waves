@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="/home/anuj/Downloads/httpcomponents-core-4.4.8/lib/httpcore-4.4.8.jar"/>
 	<classpathentry kind="lib" path="/home/anuj/Downloads/httpcomponents-core-4.4.8/lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="lib" path="/home/anuj/Downloads/ecc-25519-java-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/home/anuj/Downloads/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
