@@ -18,6 +18,7 @@ public class KeyTest {
 		String privateKey="4pbYuwqYPad51SRF5RP9dGif8PCCkoXtW62Ex8kMWyak";
 		byte[] seedByte=w.newSeed(seed);
 		assertArrayEquals(Base58.decode(privateKey),w.newPrivateKey(seedByte,4));
+		
 	}
 
 }
